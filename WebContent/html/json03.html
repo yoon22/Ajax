@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<script>
+	function goAjax(){
+		var xhr = new XMLHttpRequest(); //전화만듦
+		xhr.open('GET', '/ajax',false); //전화번호 쓰고 전화 건것 //없는 번호로 전화를 걸경우 1까지는 감. 
+		xhr.onreadystatechange = function() {
+			//xhr.onreadystatechage에 function을 대입해놓음. 
+			if (xhr.readyState == 4 && xhr.statue == 200) {
+				alert(xhr.response);
+				
+			}
+		}
+		xhr.send(); //실행하면 14라인으로 이동.
+	}
+	</script>
+	<form method="get"action="/ajax">
+	<!--  폼태그를 이용해서 브라우져 자체에 요청! 화면 변함. -->
+	<button>전송</button>
+	</form>
+	<button onclick="goAjax()">GoAJAX</button>
+	<!--  화면은 바뀌지 않음. -->
+	
+</body>
+</html>
