@@ -14,7 +14,7 @@ public class UserDAOImpl implements UserDAO {
 	private  String insertUser = "insert into user_info"
 			+ "(ui_num,ui_name,ui_id,ui_pwd,ui_email)"
 			+ " values (seq_ui_num.nextval,?,?,?,?)";  
-	private String userLogin = "select * from user_info where ui_id=?";
+	private String userLogin = "select * from user_info where ui_id=? and ui_pwd=?";
 	
 	@Override
 	public int insertUser(Map<String, String> user) {
@@ -34,15 +34,15 @@ public class UserDAOImpl implements UserDAO {
 	}
 	
 	@Override
-	public Map<String, String> userLogin(String userid) {
+	public Map<String, String> userLogin(String userId,String userPwd) {
 		try {
 			PreparedStatement ps = DBCon.getCon().prepareStatement(userLogin);
-			ps.setString(1,userid);			
+			ps.setString(1,userId);	
+			ps.setString(2, userPwd);
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				Map<String,String> u = new HashMap<>();
-				u.put("ui_num",rs.getString("ui_num"));
+				Map<String,String> u = new HashMap<>();				
 				u.put("ui_name",rs.getString("ui_name"));
 				u.put("ui_id",rs.getString("ui_id"));
 				u.put("ui_pwd",rs.getString("ui_pwd"));
@@ -53,6 +53,8 @@ public class UserDAOImpl implements UserDAO {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			DBCon.close();
 		}
 		
 		
