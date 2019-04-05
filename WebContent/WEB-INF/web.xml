@@ -62,13 +62,21 @@
     <filter-name>EncodingFilter</filter-name>
     <url-pattern>*</url-pattern>
   </filter-mapping>
-  
-    <servlet>
+  <servlet>
     <servlet-name>FileServlet</servlet-name>
     <servlet-class>servlet.FileServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>FileServlet</servlet-name>
     <url-pattern>/file/*</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>AddrServlet</servlet-name>
+    <servlet-class>servlet.AddrServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddrServlet</servlet-name>
+    <url-pattern>/addr/*</url-pattern>
   </servlet-mapping>
 </web-app>
