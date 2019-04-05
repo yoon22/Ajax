@@ -15,7 +15,6 @@ import service.impl.AddrServiceImpl;
 import utils.Command;
 
 
-@WebServlet("/AddrServlet")
 public class AddrServlet1 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private AddrService as = new AddrServiceImpl();
@@ -24,7 +23,8 @@ public class AddrServlet1 extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String cmd = Command.getCmd(request);
 		if("list".equals(cmd)) {
-			Command.goPage(request, response,"views/addr1/list");
+			as.selectAddrList(request);
+			Command.goPage(request, response,"/views/addr1/list");
 			 
 		}
 	}

@@ -72,11 +72,11 @@
   </servlet-mapping>
   
    <servlet>
-    <servlet-name>AddrServlet</servlet-name>
-    <servlet-class>servlet.AddrServlet</servlet-class>
+    <servlet-name>AddrServlet1</servlet-name>
+    <servlet-class>servlet.AddrServlet1</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>AddrServlet</servlet-name>
+    <servlet-name>AddrServlet1</servlet-name>
     <url-pattern>/addr/*</url-pattern>
   </servlet-mapping>
 </web-app>

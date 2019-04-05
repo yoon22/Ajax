@@ -12,38 +12,55 @@ import utils.Command;
 
 public class AddrServiceImpl implements AddrService {
 	private AddrDAO adao = new AddrDAOImpl();
-	private static final int PAGE_COUNT = 10;
 
 	@Override
 	public List<Map<String, String>> selectAddrList(HttpServletRequest request) {
 		Map<String, String> paramMap = Command.getSingleMap(request);
 		int page = 1;
+		 int pageCount = 10;
+		  int blockCount = 10;
 		if (paramMap.get("page") != null) {
 			page = Integer.parseInt(paramMap.get("page"));
 		}
-		int lNum = page * PAGE_COUNT;
-		int sNum = lNum - (PAGE_COUNT-1);
+		if(paramMap.get("pageCount")!=null) {
+			pageCount = Integer.parseInt(paramMap.get("pageCount"));
+		}
+		if(paramMap.get("blockCount")!=null) {
+			blockCount = Integer.parseInt(paramMap.get("blockCount"));
+		}
+		request.setAttribute("pageCount", pageCount);
+		request.setAttribute("blockCount", blockCount);
+		request.setAttribute("page", page);
+		int lNum = page * pageCount;
+		int sNum = lNum - (pageCount-1);
 		paramMap.put("lNum", lNum+"" );
 		paramMap.put("sNum", sNum+ "");
 		List<Map<String,String>> addrList = adao.selectAddrList(paramMap);
 		request.setAttribute("list", addrList);
 		
-		int totalCnt = adao.selectTotalAddrCnt();
+		int totalCnt = adao.selectTotalAddrCnt(paramMap);
 		request.setAttribute("totalCnt", totalCnt);
-		int totalPageCnt = totalCnt/PAGE_COUNT; //인트는 소수점이 잘리기때문에~~ 
-		if(totalCnt%PAGE_COUNT>0) {
+		int totalPageCnt = totalCnt/pageCount; //인트는 소수점이 잘리기때문에~~ 
+		
+		if(totalCnt%pageCount>0) {
 			totalPageCnt ++; //나머지 숫자가 있는경우 페이지 한개를 더 늘려줘야함. 
 		}
+		
+		int lBlock =((page-1)/blockCount+1) * blockCount;
+		int fBlock = lBlock-(blockCount-1);
+		if(lBlock>totalPageCnt) {
+			lBlock = totalPageCnt;
+		}
+		request.setAttribute("lBlock", lBlock);
+		request.setAttribute("fBlock", fBlock);
 		request.setAttribute("totalPageCnt", totalPageCnt);
-		
-		
 		return addrList;
 	}
 
 	@Override
 	public int selectTotalAddrCnt() {
-
-		return adao.selectTotalAddrCnt();
+		return 0;
+		//return adao.selectTotalAddrCnt(addr);
 
 	}
 
